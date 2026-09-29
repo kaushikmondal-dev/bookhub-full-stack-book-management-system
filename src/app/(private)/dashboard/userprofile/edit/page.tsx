@@ -18,7 +18,7 @@ const page = async () => {
   if (!session) {
     return redirect("/login");
   }
-  const { name, email, image } = session.user;
+  const { name, image } = session.user;
 
   return (
     <section className="grid h-dvh place-items-center">
@@ -35,7 +35,7 @@ const page = async () => {
         <CardHeader className="w-sm">
           <CardTitle>Update User Details</CardTitle>
         </CardHeader>
-        <UpdateUserDetails />
+        <UpdateUserDetails prevName={name} />
       </Card>
     </section>
   );

@@ -11,7 +11,7 @@ const updateUserAvatar = async (
   newImgFile: File,
 ) => {
   try {
-    if (prevImageUrl !== null) {
+    if (prevImageUrl) {
       await rm(`./public/${prevImageUrl}`);
 
       const imageName = `${crypto.randomUUID()}.jpeg`;
@@ -30,20 +30,18 @@ const updateUserAvatar = async (
       });
 
       revalidatePath("/", "layout");
-      return { isSuccess: true, msg: "Avatar Update" };
+      return { isSuccess: true, msg: "User Avatar Updated ✅ " };
     }
-
-    return { isSuccess: false, msg: "Avater Not Updated" };
   } catch (error) {
     if (error instanceof Error) {
       return {
         isSuccess: false,
-        msg: "Update Failed try later !!",
+        msg: "Somthing want to worng, try later !!❌",
       };
     }
     return {
       isSuccess: false,
-      msg: "Creation Failed server  error !!",
+      msg: "Server error : Update Failed💀",
     };
   }
 };

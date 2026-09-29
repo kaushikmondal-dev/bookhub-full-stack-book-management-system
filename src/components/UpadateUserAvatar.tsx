@@ -30,7 +30,7 @@ const UpadateUserAvatar = ({ prevImageUrl }: UpadateUserAvatarProps) => {
     onClear: () => setIsFile(false),
 
     validators: [
-      new FileSizeValidator({ maxFileSize: 1 * 1024 * 1024 /*1MB*/ }),
+      new FileSizeValidator({ maxFileSize: 4 * 1024 * 1024 /*1MB*/ }),
     ],
   });
 
