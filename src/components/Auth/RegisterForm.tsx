@@ -1,14 +1,18 @@
 "use client";
 
-import { LoginType, registerSchema } from "@/lib/zodSchema";
+import { authClient } from "@/lib/auth-client";
+import { registerSchema, RegisterType } from "@/lib/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2Icon, UserPlus2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { Button } from "../shadcnui/button";
 import { Field, FieldError, FieldLabel } from "../shadcnui/field";
 import { Input } from "../shadcnui/input";
+import { toast } from "../shadcnui/toast";
 
 const RegisterForm = () => {
+  const { replace } = useRouter();
   const {
     handleSubmit,
     control,
@@ -24,9 +28,27 @@ const RegisterForm = () => {
     mode: "all",
   });
 
-  const registerHandler = async (regData: LoginType) => {
+  const registerHandler = async (regData: RegisterType) => {
     await new Promise<void>((resolve) => setTimeout(resolve, 1500));
-    console.log(regData);
+
+    const { error } = await authClient.signUp.email({
+      name: regData.name,
+      email: regData.email,
+      password: regData.password,
+    });
+    if (error) {
+      toast.add({
+        type: "error",
+        title: error.message,
+      });
+    } else {
+      toast.add({
+        type: "success",
+        title: "Registation successful",
+      });
+
+      replace("/login");
+    }
   };
   return (
     <form

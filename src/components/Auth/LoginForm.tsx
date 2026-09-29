@@ -1,14 +1,18 @@
 "use client";
+import { authClient } from "@/lib/auth-client";
 import { loginSchema, LoginType } from "@/lib/zodSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2Icon, UserPlus2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Controller, useForm } from "react-hook-form";
 import { Button } from "../shadcnui/button";
 import { Checkbox } from "../shadcnui/checkbox";
 import { Field, FieldError, FieldLabel } from "../shadcnui/field";
 import { Input } from "../shadcnui/input";
+import { toast } from "../shadcnui/toast";
 
 const LoginForm = () => {
+  const { replace } = useRouter();
   const {
     handleSubmit,
     control,
@@ -25,7 +29,21 @@ const LoginForm = () => {
 
   const loginHandler = async (loginData: LoginType) => {
     await new Promise<void>((resolve) => setTimeout(resolve, 1500));
-    console.log(loginData);
+    const { error } = await authClient.signIn.email(loginData);
+
+    if (error) {
+      toast.add({
+        type: "error",
+        title: error.message,
+      });
+    } else {
+      toast.add({
+        type: "success",
+        title: "Login successful",
+      });
+
+      replace("/");
+    }
   };
   return (
     <form
