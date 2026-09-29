@@ -39,7 +39,7 @@ const LoginForm = () => {
     } else {
       toast.add({
         type: "success",
-        title: "Login successful",
+        title: "Login Successful✅",
       });
 
       replace("/");

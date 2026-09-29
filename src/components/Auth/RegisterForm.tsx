@@ -44,7 +44,7 @@ const RegisterForm = () => {
     } else {
       toast.add({
         type: "success",
-        title: "Registation successful",
+        title: "Registation Successful✅",
       });
 
       replace("/login");

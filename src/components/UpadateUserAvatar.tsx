@@ -1,8 +1,7 @@
 "use client";
 
-import updateUserAvatar from "@/server/updateUserAvatar";
+import { updateUserAvatar } from "@/server/updateUserAvatar";
 import { ImageUp, Loader2Icon } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useFilePicker } from "use-file-picker";
 import { FileSizeValidator } from "use-file-picker/validators";
@@ -18,8 +17,6 @@ type UpadateUserAvatarProps = {
 const UpadateUserAvatar = ({ prevImageUrl }: UpadateUserAvatarProps) => {
   const [isFile, setIsFile] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  const { refresh } = useRouter();
 
   const { openFilePicker, filesContent, plainFiles, clear } = useFilePicker({
     multiple: false,
@@ -48,7 +45,6 @@ const UpadateUserAvatar = ({ prevImageUrl }: UpadateUserAvatarProps) => {
       toast.add({
         title: msg,
       });
-      refresh();
     } else {
       toast.add({
         title: msg,
@@ -56,8 +52,6 @@ const UpadateUserAvatar = ({ prevImageUrl }: UpadateUserAvatarProps) => {
     }
 
     clear();
-    setIsLoading(false);
-
     setIsLoading(false);
   };
 
