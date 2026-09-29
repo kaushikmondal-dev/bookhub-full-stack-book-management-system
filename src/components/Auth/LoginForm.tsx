@@ -43,6 +43,7 @@ const LoginForm = () => {
       });
 
       replace("/");
+      replace("/dashboard");
     }
   };
   return (
