@@ -3,20 +3,26 @@
 import { Controller, useForm } from "react-hook-form";
 
 import { BookFromType, bookSchema } from "@/lib/zodSchema";
+import { createBook } from "@/server/createBook";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Loader2Icon, UserPenIcon } from "lucide-react";
+import { Loader2Icon, UserPlusIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "../shadcnui/button";
 import { CardContent, CardFooter } from "../shadcnui/card";
 import { Field, FieldError, FieldLabel } from "../shadcnui/field";
 import { Input } from "../shadcnui/input";
+import { toast } from "../shadcnui/toast";
 
 const CreateBook = () => {
   const [isLoading, setIsLoading] = useState(false);
+
+  const { push } = useRouter();
   const {
     handleSubmit,
     control,
     formState: { isSubmitting, isDirty },
+    reset,
   } = useForm({
     resolver: zodResolver(bookSchema),
     defaultValues: {
@@ -33,9 +39,20 @@ const CreateBook = () => {
   });
 
   const CreateBookHandler = async (bookData: BookFromType) => {
-    console.log(bookData);
     setIsLoading(true);
     await new Promise<void>((resolve) => setTimeout(resolve, 500));
+
+    const { isSuccess, msg } = await createBook(bookData);
+
+    if (isSuccess) {
+      toast.add({ title: msg, type: "success" });
+
+      reset();
+
+      push("/all-books");
+    } else {
+      toast.add({ title: msg, type: "error" });
+    }
 
     setIsLoading(false);
   };
@@ -43,9 +60,28 @@ const CreateBook = () => {
   return (
     <form
       onSubmit={handleSubmit(CreateBookHandler)}
-      className=""
+      className="grid gap-4"
       noValidate>
       <CardContent>
+        {/* Cover Image */}
+        <Controller
+          name="image"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={field.name}>Book Cover Image URL</FieldLabel>
+              <Input
+                {...field}
+                id={field.name}
+                aria-invalid={fieldState.invalid}
+                placeholder=" Book Cover Image"
+                autoComplete="off"
+              />
+
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        />
         {/* Book Name */}
         <Controller
           name="name"
@@ -58,7 +94,7 @@ const CreateBook = () => {
                 id={field.name}
                 type="text"
                 aria-invalid={fieldState.invalid}
-                placeholder="Atomic Habits"
+                placeholder="Book Name"
                 autoComplete="off"
               />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -78,29 +114,9 @@ const CreateBook = () => {
                 id={field.name}
                 type="text"
                 aria-invalid={fieldState.invalid}
-                placeholder="James Clear"
+                placeholder="Author Name"
                 autoComplete="off"
               />
-              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
-            </Field>
-          )}
-        />
-
-        {/* Cover Image */}
-        <Controller
-          name="image"
-          control={control}
-          render={({ field, fieldState }) => (
-            <Field data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor={field.name}>Cover Image URL</FieldLabel>
-              <Input
-                {...field}
-                id={field.name}
-                aria-invalid={fieldState.invalid}
-                placeholder="https://example.com/cover.jpg"
-                autoComplete="off"
-              />
-
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}
@@ -183,7 +199,7 @@ const CreateBook = () => {
                 id={field.name}
                 type="text"
                 aria-invalid={fieldState.invalid}
-                placeholder="English"
+                placeholder="Book Language"
                 autoComplete="off"
               />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -204,8 +220,8 @@ const CreateBook = () => {
               <Loader2Icon className="animate-spin" /> Creating Book .....
             </>
           : <>
-              <UserPenIcon />
-              Create
+              <UserPlusIcon />
+              Create Book
             </>
           }
         </Button>
