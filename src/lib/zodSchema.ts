@@ -41,3 +41,41 @@ export const loginSchema = z.object({
 /* ---------- Types ---------- */
 export type RegisterType = z.infer<typeof registerSchema>;
 export type LoginType = z.infer<typeof loginSchema>;
+
+/*------------Books -----------*/
+export const bookSchema = z.object({
+  name: z
+    .string()
+    .trim()
+    .min(1, "Book name is required")
+    .max(150, "Book name is too long"),
+
+  author: z
+    .string()
+    .trim()
+    .min(1, "Author name is required")
+    .max(100, "Author name is too long"),
+
+  image: z.string().trim().url("Enter a valid image URL"),
+
+  price: z.coerce.number().min(0, "Price can't be negative"),
+
+  publishedYear: z.coerce
+    .number()
+    .int("Year must be a whole number")
+    .min(1000, "Invalid year")
+    .max(new Date().getFullYear(), "Year can't be in the future"),
+
+  pages: z.coerce
+    .number()
+    .int("Pages must be a whole number")
+    .min(1, "Pages must be at least 1"),
+
+  language: z
+    .string()
+    .trim()
+    .min(1, "Language is required")
+    .max(50, "Language name is too long"),
+});
+
+export type BookFromType = z.infer<typeof bookSchema>;

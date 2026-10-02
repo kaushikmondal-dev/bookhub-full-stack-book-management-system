@@ -42,8 +42,7 @@ const LoginForm = () => {
         title: "Login Successful✅",
       });
 
-      replace("/");
-      replace("/dashboard");
+      replace("/all-books");
     }
   };
   return (

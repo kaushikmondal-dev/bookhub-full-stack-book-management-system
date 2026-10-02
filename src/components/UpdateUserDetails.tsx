@@ -21,8 +21,8 @@ const nameSchema = z.object({
   name: z.string().min(5, { error: "Minimun 5 Characters" }),
 });
 const UpdateUserDetails = ({ prevName }: UpdateNameFormProps) => {
-  const { push } = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const { push } = useRouter();
   const {
     handleSubmit,
     control,

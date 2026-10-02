@@ -74,3 +74,14 @@ model Verification {
   @@index([identifier])
   @@map("verification")
 }
+
+model Book {
+  id            String @id @default(uuid())
+  name          String
+  author        String
+  image         String @unique
+  price         Float  @default(0)
+  publishedYear Int    @default(0)
+  pages         Int    @default(1)
+  language      String @default("English")
+}

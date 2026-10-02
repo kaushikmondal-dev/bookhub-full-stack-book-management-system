@@ -19,8 +19,8 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
-  title: "Dashboadr | BookHub",
-  description: "DashBoard page of BookHub App",
+  title: "User Profile | BookHub",
+  description: "User Profile page of BookHub App",
 };
 
 const page = async () => {
@@ -48,7 +48,7 @@ const page = async () => {
         </CardContent>
         <CardFooter className="grid grid-cols-2 gap-1">
           <Link
-            href={`/dashboard/userprofile/edit`}
+            href={`/`}
             className={buttonVariants({
               size: "sm",
             })}>
