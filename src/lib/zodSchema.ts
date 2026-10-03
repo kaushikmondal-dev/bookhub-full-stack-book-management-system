@@ -56,7 +56,7 @@ export const bookSchema = z.object({
     .min(1, "Author name is required")
     .max(100, "Author name is too long"),
 
-  image: z.string().trim().url("Enter a valid image URL"),
+
 
   price: z.coerce.number().min(0, "Price can't be negative"),
 
