@@ -1,5 +1,7 @@
+import BookCard from "@/components/Books/BookCard";
 import Header from "@/components/Layout/Header";
-import ToastButton from "@/components/ToastButton";
+import { Card, CardContent } from "@/components/shadcnui/card";
+import prisma from "@/lib/dbClient/prisma";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,19 +9,33 @@ export const metadata: Metadata = {
   description: "Production grade Fullstack Next.js starter template",
 };
 
-const page = () => {
+const page = async () => {
+  const allBooks = await prisma.book.findMany();
+  if (allBooks.length === 0) {
+    return (
+      <section className="grid h-dvh place-items-center">
+        <Card>
+          <CardContent className="text-6xl">No Books Found </CardContent>
+        </Card>
+      </section>
+    );
+  }
+
   return (
     <>
       <Header />
 
-      <main className="grid h-dvh place-items-center">
-        <section className="space-y-4 text-center">
-          <h1 className="text-5xl font-semibold">Next.js Starter Fullstack</h1>
-          <h2 className="text-3xl">
-            Production grade Fullstack Next.js starter template
-          </h2>
+      <main className="pt-15">
+        <section className="grid place-items-center gap-6 pt-8 sm:grid-cols-1 md:grid-cols-4 xl:grid-cols-5">
+          {allBooks.map((item) => (
+            <BookCard
+              key={item.id}
+              books={item}
+              // showAction (if show buttons)
+            />
+          ))}
 
-          <ToastButton />
+          {/* <ToastButton /> */}
         </section>
       </main>
     </>

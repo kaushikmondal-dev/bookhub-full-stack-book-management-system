@@ -21,7 +21,7 @@ const CreateBook = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isFile, setIsFile] = useState(false);
 
-  const { replace } = useRouter();
+  const { push } = useRouter();
   const {
     handleSubmit,
     control,
@@ -41,7 +41,7 @@ const CreateBook = () => {
     mode: "all",
   });
 
-  const { openFilePicker, filesContent, plainFiles } = useFilePicker({
+  const { openFilePicker, filesContent, plainFiles, clear } = useFilePicker({
     multiple: false,
     accept: "image/*",
     readAs: "DataURL",
@@ -63,8 +63,8 @@ const CreateBook = () => {
       toast.add({ title: msg, type: "success" });
 
       reset();
-
-      replace("/all-books");
+      clear();
+      push("/all-books");
     } else {
       toast.add({ title: msg, type: "error" });
     }

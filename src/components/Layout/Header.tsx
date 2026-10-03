@@ -30,8 +30,7 @@ const Header = () => {
         </Link>
 
         <nav className="flex items-center gap-4">
-          <Link href={"/"}>Home</Link>
-          <Link href={"/all-books"}>All Books</Link>
+          <Link href={"/login"}>Manage Books</Link>
 
           <Link
             className="flex items-center gap-1"

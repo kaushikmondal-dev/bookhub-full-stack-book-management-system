@@ -1,6 +1,8 @@
 "use server";
 
+import prisma from "@/lib/dbClient/prisma";
 import { BookFromType } from "@/lib/zodSchema";
+import { revalidatePath } from "next/cache";
 import sharp from "sharp";
 
 export const createBook = async (bookData: BookFromType, imgFile: File) => {
@@ -19,11 +21,22 @@ export const createBook = async (bookData: BookFromType, imgFile: File) => {
         quality: 97,
       })
       .toFile(`./public/uploads/${imageName}`);
-    // await prisma.book.create({
-    //   data: bookData,
-    // });
 
-    // revalidatePath("/");
+    const imageUrl = `uploads/${imageName}`;
+
+    await prisma.book.create({
+      data: {
+        name: bookData.name,
+        image: imageUrl,
+        author: bookData.author,
+        price: bookData.price,
+        publishedYear: bookData.publishedYear,
+        pages: bookData.pages,
+        language: bookData.language,
+      },
+    });
+
+    revalidatePath("/");
 
     return {
       isSuccess: true,
