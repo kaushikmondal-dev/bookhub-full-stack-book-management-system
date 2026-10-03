@@ -33,6 +33,7 @@ export const createBook = async (bookData: BookFromType, imgFile: File) => {
         publishedYear: bookData.publishedYear,
         pages: bookData.pages,
         language: bookData.language,
+        // color: bookData.color,
       },
     });
 

@@ -6,11 +6,10 @@ import {
   LanguagesIcon,
   RefreshCw,
   TagIcon,
-  Trash2Icon,
 } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "../shadcnui/avatar";
-import { Button, buttonVariants } from "../shadcnui/button";
+import { buttonVariants } from "../shadcnui/button";
 import {
   Card,
   CardContent,
@@ -18,6 +17,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../shadcnui/card";
+import DeleteBookButton from "./DeleteBookButton";
 
 type BookCardProps = {
   books: Book;
@@ -26,7 +26,10 @@ type BookCardProps = {
 
 const BookCard = ({ books, showAction = false }: BookCardProps) => {
   return (
-    <Card className="w-64 gap-3 py-4 text-sm">
+    <Card
+      className="w-64 gap-3 py-4 text-sm"
+      // style={{ backgroundColor: books.color }}>
+    >
       <div className="flex justify-center">
         <div className="rounded-md border-2 focus-visible:ring-2">
           <Avatar className="aspect-2/3 h-auto w-28 cursor-pointer rounded-none after:hidden">
@@ -76,11 +79,10 @@ const BookCard = ({ books, showAction = false }: BookCardProps) => {
 
       {showAction && (
         <CardFooter className="grid grid-cols-2 gap-5">
-          <Button variant="destructive">
-            <Trash2Icon />
-            Delete
-          </Button>
-
+          <DeleteBookButton
+            bookId={books.id}
+            bookImage={books.image}
+          />
           <Link
             href={"/all-books/update-book"}
             className={buttonVariants({ variant: "secondary" })}>

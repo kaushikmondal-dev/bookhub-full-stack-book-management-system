@@ -36,6 +36,7 @@ const CreateBook = () => {
       pages: "" as unknown as number,
       price: "" as unknown as number,
       publishedYear: "" as unknown as number,
+      color: "#ffffff",
     },
 
     mode: "all",
@@ -242,6 +243,24 @@ const CreateBook = () => {
             </Field>
           )}
         />
+
+        {/*Colors*/}
+        {/* <Controller
+          name="color"
+          control={control}
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={field.name}>Card Color</FieldLabel>
+              <Input
+                type="color"
+                value={field.value}
+                onChange={(e) => field.onChange(e.target.value)}
+                className="h-10 w-16 cursor-pointer"
+              />
+              {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+            </Field>
+          )}
+        /> */}
       </CardContent>
       <CardFooter>
         <Button

@@ -56,8 +56,6 @@ export const bookSchema = z.object({
     .min(1, "Author name is required")
     .max(100, "Author name is too long"),
 
-
-
   price: z.coerce.number().min(0, "Price can't be negative"),
 
   publishedYear: z.coerce
@@ -76,6 +74,8 @@ export const bookSchema = z.object({
     .trim()
     .min(1, "Language is required")
     .max(50, "Language name is too long"),
+
+  color: z.string().default("#ffffff"),
 });
 
 export type BookFromType = z.infer<typeof bookSchema>;
